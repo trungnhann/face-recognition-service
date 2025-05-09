@@ -1,92 +1,61 @@
-# Face Recognition System for Student Identification
+# face-recognition-service
 
-This system provides face recognition capabilities for student identification using DeepFace, MongoDB, and gRPC.
+A Python microservice for face registration, identification, and deletion using gRPC and MongoDB.
 
 ## Features
 
-- **RegisterFace**: Register a student's face by storing their face embedding in MongoDB
-- **IdentifyFace**: Identify a student by comparing their face embedding with stored embeddings
+- Register a face with a student ID
+- Identify a face from an image
+- Delete a face embedding by student ID
+- Fast and easy integration via gRPC API
 
-## Directory Structure
+## Requirements
 
-\`\`\`
-face_recognition_system/
-├── proto/
-│   └── face.proto
-├── src/
-│   ├── register_face.py
-│   ├── identify_face.py
-│   └── db_utils.py
-├── server/
-│   └── server.py
-├── client/
-│   └── client.py
-├── requirements.txt
-└── README.md
-\`\`\`
+- Python 3.7+
+- MongoDB
+- pip
 
-## Installation
+## Setup
 
-1. Clone the repository:
-   \`\`\`bash
-   git clone https://github.com/yourusername/face_recognition_system.git
-   cd face_recognition_system
-   \`\`\`
+```bash
+# Clone the repository
+git clone <https://github.com/trungnhann/face-recognition-service.git>
+cd face-recognition
 
-2. Create a virtual environment:
-   \`\`\`bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   \`\`\`
+# Create and activate virtual environment
+python3 -m venv venv
+source venv/bin/activate
 
-3. Install dependencies:
-   \`\`\`bash
-   pip install -r requirements.txt
-   \`\`\`
+# Install dependencies
+pip install -r requirements.txt
+```
 
-4. Install MongoDB:
-   - Follow the instructions at https://docs.mongodb.com/manual/installation/
-   - Start MongoDB service
+## Generate gRPC code (if you modify proto file)
 
-5. Generate gRPC code:
-   \`\`\`bash
-   python -m grpc_tools.protoc -I. --python_out=. --grpc_python_out=. proto/face.proto
-   \`\`\`
+```bash
+python -m grpc_tools.protoc -I./proto --python_out=. --grpc_python_out=. proto/face.proto
+```
 
-## Usage
+## Configuration
 
-### Start the server:
+- MongoDB URI can be set via the `MONGO_URI` environment variable (default: `mongodb://localhost:27017/`).
+- gRPC server port can be set via the `GRPC_PORT` environment variable (default: `50051`).
 
-\`\`\`bash
+## Run the service
+
+```bash
 python server/server.py
-\`\`\`
+```
 
-### Register a face:
+## API
 
-\`\`\`bash
-python client/client.py register --student_id "123456" --image "path/to/image.jpg"
-\`\`\`
+The service exposes the following gRPC methods:
 
-### Identify a face:
+- `RegisterFace`
+- `IdentifyFace`
+- `DeleteFace`
 
-\`\`\`bash
-python client/client.py identify --image "path/to/image.jpg"
-\`\`\`
-
-## Environment Variables
-
-- `MONGO_URI`: MongoDB connection string (default: `mongodb://localhost:27017/`)
-- `GRPC_PORT`: gRPC server port (default: `50051`)
-
-## Dependencies
-
-- DeepFace: For face detection and embedding extraction
-- MongoDB: For storing face embeddings
-- gRPC: For API communication
-- OpenCV: For image processing
-- NumPy: For numerical operations
-- Pillow: For image handling
-- SciPy: For distance calculations
+See `proto/face.proto` for request/response details.
 
 ## License
 
