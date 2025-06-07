@@ -12,9 +12,10 @@ class FaceDatabase:
         """Initialize MongoDB connection."""
         try:
             # Get MongoDB connection string from environment variable or use default
-            mongo_uri = os.environ.get('MONGO_URI', 'mongodb://localhost:27017/')
+            mongo_uri = os.environ.get('MONGO_URI', 'mongodb+srv://trungnhanforwork:Nhan280803%40@cluster0.qalmkcs.mongodb.net/cmt?retryWrites=true&w=majority&appName=Cluster0&tls=true')
+            print(mongo_uri)
             self.client = MongoClient(mongo_uri)
-            self.db = self.client['face_recognition']
+            self.db = self.client['cmt']
             self.collection = self.db['face_embeddings']
             logger.info("Connected to MongoDB successfully")
         except Exception as e:

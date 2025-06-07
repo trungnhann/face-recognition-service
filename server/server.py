@@ -59,10 +59,15 @@ class FaceRecognitionServicer(face_pb2_grpc.FaceRecognitionServicer):
         Returns:
             IdentifyResponse
         """
-        logger.info("Received identify request")
+        logger.info("Received identify face request")
         
         try:
             student_id, confidence, success, message = identify_face(request.image_base64)
+            
+            if success:
+                logger.info(f"Successfully identified face - Student ID: {student_id}, Confidence: {confidence:.2f}")
+            else:
+                logger.warning(f"Failed to identify face - Message: {message}")
             
             return face_pb2.IdentifyResponse(
                 student_id=student_id,

@@ -13,7 +13,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(level
 logger = logging.getLogger(__name__)
 
 # Threshold for face recognition
-SIMILARITY_THRESHOLD = 0.6  # Adjust based on your requirements
+SIMILARITY_THRESHOLD = 0.7  # Adjust based on your requirements
 
 def decode_image(base64_string):
     """
@@ -121,8 +121,10 @@ def identify_face(image_base64):
         
         # Check if the match is good enough
         if similarity >= SIMILARITY_THRESHOLD:
+            logger.info(f"Face identified successfully - Student ID: {best_match}, Confidence: {similarity:.2f}")
             return best_match, similarity, True, "Face identified successfully"
         else:
+            logger.warning(f"No matching face found - Best match: {best_match}, Confidence: {similarity:.2f}")
             return "unknown", similarity, False, "No matching face found"
     except ValueError as ve:
         return "unknown", 0.0, False, str(ve)
